@@ -14,6 +14,4 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new'
   resources :users, only: [:create]
   
-  #ユーザに紐付いたタスクのルーティング
-  resources :tasks, only: [:create, :destroy]
 end
