@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy, :edit, :update]
+  before_action :correct_user, only: [:show, :destroy, :edit, :update]
   def index
     if logged_in?
     @tasks = current_user.tasks.order(id: :desc).page(params[:page])
@@ -23,16 +23,14 @@ class TasksController < ApplicationController
     else
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'タスクの投稿に失敗しました。'
-      render 'tasks/index'
+      render 'tasks/new'
     end
   end
 
   def edit
-     @task = Task.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
 
     if @task.update(task_params)
       flash[:success] = 'タスクを更新しました'
@@ -44,7 +42,6 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = Task.find(params[:id])
     @task.destroy
 
     flash[:success] = 'タスクを削除しました'
